@@ -24,22 +24,38 @@ export default function InventoryReport() {
       { id: 3, name: "Chair", quantity: 150, department: "Office", lastUpdated: "2023-05-20" },
     ])
   }, [])
-
   const generatePDF = () => {
-    const doc = new jsPDF()
-    doc.text("Inventory Report", 20, 10)
-
-    const columns = ["Name", "Quantity", "Department", "Last Updated"]
-    const data = inventoryItems.map((item) => [item.name, item.quantity.toString(), item.department, item.lastUpdated])
-
-    doc.autoTable({
-      head: [columns],
-      body: data,
-      startY: 20,
-    })
-
-    doc.save("inventory-report.pdf")
-  }
+    const doc = new jsPDF();
+    doc.text("Inventory Report", 20, 10);
+  
+    const columns = ["Name", "Quantity", "Department", "Last Updated"];
+    const data = inventoryItems.map((item) => [
+      item.name,
+      item.quantity.toString(),
+      item.department,
+      item.lastUpdated,
+    ]);
+  
+    let startY = 20; // Posición inicial de la tabla
+    const lineHeight = 10; // Espaciado entre filas
+  
+    // Dibujar encabezados
+    columns.forEach((col, index) => {
+      doc.text(col, 20 + index * 40, startY);
+    });
+  
+    startY += lineHeight; // Mover hacia abajo
+  
+    // Dibujar filas de datos
+    data.forEach((row) => {
+      row.forEach((text, index) => {
+        doc.text(text, 20 + index * 40, startY);
+      });
+      startY += lineHeight;
+    });
+  
+    doc.save("inventory-report.pdf");
+  };
 
   const generateExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(inventoryItems)
