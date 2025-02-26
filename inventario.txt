@@ -1,0 +1,53 @@
+vista /login  (roles admin,operario)
+
+vista /dashboard   (estadisticas,ultimas modificaciones)
+
+vista /dashboard/departamento (lista de departamentos que tiene la empresa)
+
+vista /dashboard/departamento/nuevo-departamento  (los datos (nombre departamento,codigo,ubicación,estado))
+
+vista /dashboard/departamento/:id (toda la informacion del departamento)
+
+vista /dashboard/departamento/:id/update  (actualiza la informacion del departamento)
+
+vista /dashboard/cargo (lista de cargos)
+
+vista /dashboard/cargo/nuevo-cargo (nombre del cargo,codigo,status)
+
+vista /dashboard/cargo/:id (muestra toda la informacion del cargo)
+
+vista /dashboard/usuarios (listado de usuarios)
+
+vista /dashboard/usuarios/nuevo-usuario (los datos (nombre,correo, celular,genero,cargo_id,status))
+
+vista /dashboard/usuarios/:id  (muestra todo los datos del usuario, activos asignados,historial de activos asignados)
+
+vista /dashboard/inventario (listado del inventario,con filtros,buscador,leectorQR)
+
+vista /dashboard/inventario/:id (qr,informacion del activo, documentos del activo,usuario a cargo,historial de mantenimiento,historial del activo)
+
+vista /dashboard/inventario/nuevo-activo  (los datos del activo(personal a cargo,nombre del dispositivo,usuario(si aplica*),contraseña(si aplica*),departamento,caracteristicas (si aplica*),skype,app(usa la empresa-usaremos un json),almacenamiento nube,redsocial,office,correo,antivirus))
+
+vista /dashboard/inventario/:id/actualizar (actualizar los datos del activo)
+
+vista /dashboard/mantenimientos (lista los mantenimientos,filtro,qr(id del activo))
+
+vista /dashboard/mantenimiento/:id (muestra toda la informacion del mantenimiento, detalle de mantenimiento,reporte de mantenimiento)
+
+vista /dashboard/mantenimiento/nuevo-mantenimiento (los datos del mantenimiento(activo_id,descripcion,fecha_inicio,fecha_fin,tipo-mantenimiento,status))
+
+vista /dashboard/mantenimiento/:id/actualizar (actualizar los datos del mantenimiento)
+
+vista /dashboard/soporte (lista los soportes,filtro,qr(id del activo))
+
+vista /dashboard/soporte/:id (muestra toda la informacion del soporte, detalle del soporte,reporte de soporte) (tambien completamos la solucion y finaliza el soporte)
+
+vista /dashboard/soporte/nuevo-soporte (los datos del soporte(activo_id,descripcion,fecha_inicio,fecha_fin,status)) (implementar con la api para uso externo)
+
+vista /dashboard/reportes/reporte-inventario (reporte del inventario,filtros)
+
+vista /dashboard/reportes/reporte-usuarios (reporte de usuarios,filtros)
+
+vista /dashboard/reportes/reporte-mantenimientos (reporte de mantenimientos,filtros)
+
+vista /dashboard/reportes (reportes del sistema,filtros)
