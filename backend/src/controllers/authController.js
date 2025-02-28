@@ -1,6 +1,6 @@
-import { registerService } from "../services/authService";
+import { registerService } from "../services/authService.js";
 
-const registerController = async () => {
+const registerController = async (req,res) => {
   try {
     const data = req.body;
     // valida los campos obligatorios requeridos
@@ -13,8 +13,11 @@ const registerController = async () => {
     }
     const response = await registerService(data);
 
+    res.status(200).json({status: 200, response})
     
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({status: 500, message: error.message})
+  }
 };
 
-export { register };
+export { registerController };

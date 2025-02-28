@@ -7,7 +7,6 @@ import { verifyAccount } from "../config/nodemailer/verifyAccount.js";
 
 export const registerService = async (name, email, password,role) => {
   try {
-
     const userExists = await User.findAll({ where: { email } });
     if(!userExists){
         throw new Error("El correo ya está registrado")
@@ -37,10 +36,12 @@ export const registerService = async (name, email, password,role) => {
       email,
       "Verifica tu cuenta, Inventario",
       verifyAccount(name, verificationURL)
-    )
-    return { message: "Usuario registrado correctamente", user: newUser };
-  } catch (error) {
+    );
 
+    return { message: "Usuario registrado correctamente", user: newUser };
+
+  } catch (error) {
+    throw error;
   }
 };
 
