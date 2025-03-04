@@ -6,6 +6,7 @@ import compression from "compression";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import authRoutes from './routes/authRoute.js'
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.use(
 );
 app.use(compression());
 
+app.use('/api/auth', authRoutes)
 
 
 // Rutas
