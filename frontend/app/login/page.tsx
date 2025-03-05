@@ -1,39 +1,66 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import type React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+const URL_API = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("Chococrispy");
+    if (token) {
+      router.push("/dashboard");
+    }
+  },[])
+
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-
+    e.preventDefault();
+    setError("");
     try {
-      // Aquí iría la lógica de autenticación real
-      console.log("Intento de inicio de sesión con:", { email, password })
+      const response = await axios.get("https://api64.ipify.org?format=json");
 
-      // Simulamos un inicio de sesión exitoso
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      router.push("/dashboard")
+      axios
+        .post(`${URL_API}/api/auth/login`, {
+          email,
+          password,
+          ip: response.data.ip,
+        })
+        .then((response) => {
+          if (response.status === 200 && response.data.ok == true) {
+            localStorage.setItem("Chococrispy", response.data.token);
+            localStorage.setItem("User", JSON.stringify(response.data.user));
+            router.push("/dashboard");
+          }
+          {
+            setError("No valido");
+          }
+        })
+        .catch((error) => {
+          setError(
+            "Error de inicio de sesión. Por favor, verifique su correo electrónico y contraseña."
+          );
+        });
+      // router.push("/dashboard")
     } catch (err) {
-      console.error("Error de inicio de sesión:", err)
-      setError("Error al iniciar sesión. Por favor, inténtelo de nuevo.")
+      console.error("Error de inicio de sesión:", err);
+      setError("Error al iniciar sesión. Por favor, inténtelo de nuevo.");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Iniciar sesión</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Iniciar sesión
+          </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && <p className="text-red-500 text-center">{error}</p>}
@@ -83,6 +110,5 @@ export default function Login() {
         </form>
       </div>
     </div>
-  )
+  );
 }
-

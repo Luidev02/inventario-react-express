@@ -11,8 +11,26 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ModeToggle } from "@/components/mode-toggle"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+const URL_API = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Header() {
+  const router = useRouter()
+
+const logout = async() =>{
+  const token = localStorage.getItem('Chococrispy');
+  await axios.get(`${URL_API}/api/auth/logout?token=${token}`).then(response => {
+    localStorage.removeItem('User');
+    localStorage.removeItem('Chococrispy');
+    router.push('/login');
+  }).catch(error => {
+    localStorage.removeItem('User');
+    localStorage.removeItem('Chococrispy');
+    router.push('/login');
+  })
+}
+
   return (
     <header className="bg-background border-b">
       <div className="flex justify-between items-center h-16 px-4">
@@ -46,7 +64,7 @@ export default function Header() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/login">Cerrar sesión</Link>
+                <button onClick={()=>logout()}>Cerrar sesión</button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

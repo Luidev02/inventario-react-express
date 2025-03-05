@@ -1,5 +1,5 @@
 export const verifyAccount = (name,verificationUrl) =>{
-    `
+return `
     <!DOCTYPE html>
 <html>
 <head>

@@ -6,7 +6,9 @@ import compression from "compression";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import authRoutes from './routes/authRoute.js'
+import authRoutes from "./routes/authRoute.js";
+import dashboardRoutes from "./routes/dashboardRoute.js";
+import { authenticate } from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 const app = express();
@@ -22,7 +24,7 @@ app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: "http://sc44wsk088skgco848ws84cw.34.132.235.180.sslip.io/",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -31,8 +33,8 @@ app.use(
 );
 app.use(compression());
 
-app.use('/api/auth', authRoutes)
-
+app.use("/api/auth", authRoutes);
+app.use("/api/dashboard", authenticate, dashboardRoutes);
 
 // Rutas
 

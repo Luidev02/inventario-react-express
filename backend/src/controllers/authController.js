@@ -1,4 +1,9 @@
-import { loginService, registerService } from "../services/authService.js";
+import {
+  loginService,
+  logOutService,
+  registerService,
+} from "../services/authService.js";
+import ResponseHandler from "../utils/responseHandler.js";
 
 const registerController = async (req, res) => {
   try {
@@ -11,10 +16,9 @@ const registerController = async (req, res) => {
       });
     }
     const response = await registerService(data);
-
-    res.status(200).json({ status: 200, response });
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(500).json({ status: 500, message: error.message });
+    res.status(500).json(ResponseHandler.error(error.message, 500));
   }
 };
 
@@ -27,12 +31,26 @@ const loginController = async (req, res) => {
         message: "Por favor, proporcione todos los campos obligatorios",
       });
     }
-
     const response = await loginService(data);
-    res.status(200).json({ status: 200, response });
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(500).json({ status: 500, message: error.message });
+    res.status(500).json(ResponseHandler.error(error.message, 500));
   }
 };
 
-export { registerController, loginController };
+
+
+const logOutController = async (req, res) => {
+  try {
+    const token = req.query.token;
+    if (!token) {
+      res.status(400).json({ status: 400, message: "Token no proporcionado" });
+    }
+    const response = await logOutService(token);
+    res.status(response.status).json(response);
+  } catch (error) {
+    res.status(500).json(ResponseHandler.error(error.message, 500));
+  }
+};
+
+export { registerController, loginController, logOutController };
