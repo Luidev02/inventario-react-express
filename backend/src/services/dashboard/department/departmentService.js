@@ -9,3 +9,13 @@ export const departmentService = async () => {
     throw error;
   }
 };
+
+
+export const nuevoDepartmentService = async (data) => {
+  try {
+    const department = await Department.create(data);
+    return ResponseHandler.success(department, 201);
+  } catch (error) {
+    throw error; 
+  }
+}
